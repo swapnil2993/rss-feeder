@@ -1,0 +1,37 @@
+<html>
+<head>
+  <title>
+    RSS Feeder
+  </title>
+  <script src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js'></script>
+  <script>
+    function rssfeeds(){
+        var jsonData = {}
+        jsonData['url'] = $('#rss_url').val()
+        jsonData = JSON.stringify(jsonData)
+          $.ajax(
+            {
+              url: "http://localhost:5000/feeds/", success: function(result){
+                if (result['data'].length > 0 ){
+                  for (item in result["data"]){
+                    $("#div1").append('<p>'+result["data"][item]["link"]+'</p>')
+                  }
+                }
+
+        },
+        type: 'POST',
+        data: jsonData
+      });
+    };
+</script>
+</head>
+</body>
+<form action="/feed" method="post">
+           <h2>feed url </h2>
+           <input id='rss_url' type="url" name="rssurl"  placeholder="Url" >
+           <button type="button" onclick=rssfeeds()>Search</button>
+       </form>
+<div id = 'div1'>
+</div>
+</body>
+</html>
